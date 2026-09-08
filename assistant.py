@@ -6,7 +6,7 @@ except FileNotFoundError:
 name=input("你好,我叫算数小能手,你叫什么名字")
 input(f"你好,{name},请输入任意键进入菜单")
 while True:
-    cmd=input("1.算数,2.打招呼,3.历史,4.退出")
+    cmd=input("1.算数,2.打招呼,3.历史,4.删除一条,5.清空全部,6.退出")
     if cmd == "1":
         try:
             a=float(input("请输入你需要计算的第一个数字"))
@@ -57,6 +57,34 @@ while True:
             print(f"共 {len(history)} 条记录")
         input("按任意键返回菜单")
     elif cmd == "4":
+        if len(history) == 0:
+            print("还没有计算记录")
+            input("按任意键返回菜单")
+            continue
+        try:
+            n = int(input("请输入要删除的题号"))
+        except ValueError:
+            print("请输入数字")
+            input("按任意键返回菜单")
+            continue
+        if 1 <= n <= len(history):
+            history.pop(n - 1)
+            print(f"已删除第{n}题")
+            with open("history.txt", "w", encoding="utf-8") as f:
+                for item in history:
+                    f.write(item + "\n")
+        else:
+            print("题号不存在")
+        input("按任意键返回菜单")
+    elif cmd == "5":
+        if len(history) == 0:
+            print("还没有计算记录")
+        else:
+            history.clear()
+            open("history.txt", "w").close()
+            print("已清空全部记录")
+        input("按任意键返回菜单")
+    elif cmd == "6":
         break
     else:
         print("没有这个选项")
